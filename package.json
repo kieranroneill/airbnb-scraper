@@ -6,5 +6,14 @@
   "repository": "https://github.com/kieranroneill/airbnb-scraper",
   "author": "Kieran O'Neill <kieranroneill@googlemail.com>",
   "license": "MIT",
-  "private": false
+  "private": false,
+  "scripts": {
+    "build": "tsc -p tsconfig.json",
+    "start": "ts-node src/index.ts"
+  },
+  "devDependencies": {
+    "@types/node": "^12.12.3",
+    "ts-node": "^8.4.1",
+    "typescript": "^3.6.4"
+  }
 }
