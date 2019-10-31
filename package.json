@@ -1,0 +1,10 @@
+{
+  "name": "airbnb-scraper",
+  "version": "1.0.0",
+  "description": "Scrapes a AirBnb listing and retrieves all the data about the listing.",
+  "main": "index.js",
+  "repository": "https://github.com/kieranroneill/airbnb-scraper",
+  "author": "Kieran O'Neill <kieranroneill@googlemail.com>",
+  "license": "MIT",
+  "private": false
+}
