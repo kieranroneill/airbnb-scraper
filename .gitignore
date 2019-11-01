@@ -146,5 +146,6 @@ fabric.properties
 !.vscode/extensions.json
 
 ### Custom
+.env
 dist/
 node_modules/
