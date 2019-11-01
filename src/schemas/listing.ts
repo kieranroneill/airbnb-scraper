@@ -4,15 +4,26 @@ import { Schema } from 'mongoose';
 import { IListingModel } from '../models/listing';
 
 export const listingSchema: Schema = new Schema({
-  createdAt: Date,
+  createdAt: {
+    required: true,
+    type: Date,
+  },
   description: String,
   host: {
     name: String,
     url: String,
   },
+  listingId: {
+    required: true,
+    type: Number,
+    unique: true,
+  },
   rating: String,
   title: String,
-  updatedAt: Date,
+  updatedAt: {
+    required: true,
+    type: Date,
+  },
 });
 
 listingSchema.pre<IListingModel>('save', function (next: () => void) {

@@ -7,6 +7,9 @@ import * as Helmet from 'helmet';
 import { Connection, createConnection } from 'mongoose';
 import * as logger from 'morgan';
 
+// APIs.
+import { ListingAPI } from './api';
+
 // Models
 import { IModel } from './models';
 import { IListingModel } from './models/listing';
@@ -14,32 +17,33 @@ import { IListingModel } from './models/listing';
 // Schemas
 import { listingSchema } from './schemas/listing';
 
-/**
- * The server.
- * @class Server
- */
 export class Server {
   public app: Express.Application;
 
   private model!: IModel;
 
-  /**
-   * Constructor.
-   * @class Server
-   * @constructor
-   */
   constructor() {
     this.app = Express();
 
     this.config();
+    this.api();
   }
 
   /**
-   * Configure application
-   * @class Server
-   * @method config
+   * Creates the API endpoints.
    */
-  public config() {
+  private api(): void {
+    const router: Express.Router = Express.Router();
+
+    ListingAPI.create(router, this.model);
+
+    this.app.use('/api', router);
+  }
+
+  /**
+   * Configures the application.
+   */
+  private config(): void {
     const mongoDbUri: string = process.env.MONGODB_URI || 'mongodb://localhost:27017/airbnb-listings';
     let connection: Connection;
 
