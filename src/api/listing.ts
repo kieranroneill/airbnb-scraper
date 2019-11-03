@@ -3,6 +3,9 @@ import { Request, Response, Router } from 'express';
 // APIs.
 import BaseAPI from './base';
 
+// Constants.
+import * as ApiConstants from './constants';
+
 // Interfaces.
 import { IListing } from '../interfaces/listing'
 
@@ -22,7 +25,7 @@ export default class ListingAPI extends BaseAPI {
   public static create(router: Router, model: IModel): void {
     const listing: ListingAPI = new ListingAPI(model);
 
-    router.post('/listing', listing.postListing.bind(listing));
+    router.post(ApiConstants.LISTING_ENDPOINT, listing.postListing.bind(listing));
   }
 
   private async postListing(req: Request, res: Response): Promise<void> {
@@ -31,7 +34,7 @@ export default class ListingAPI extends BaseAPI {
 
     // If we have no URL or it is not an Airbnb listing.
     if (!url || !url.includes('airbnb.co.uk/rooms/')) {
-      return res.status(404)
+      return res.status(400)
         .send('This is not an Airbnb listing')
         .end();
     }

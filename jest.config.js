@@ -19,7 +19,6 @@ module.exports = {
   rootDir: '.',
   roots: ['<rootDir>/src/'],
   testEnvironment: 'node',
-  testResultsProcessor: 'jest-junit',
   transform: {
     '^.+\\.ts?$': '<rootDir>/node_modules/ts-jest',
   },

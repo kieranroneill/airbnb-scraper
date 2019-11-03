@@ -25,8 +25,10 @@
     "@types/morgan": "^1.7.37",
     "@types/node": "^12.12.3",
     "@types/puppeteer": "^1.20.2",
+    "@types/supertest": "^2.0.8",
     "jest": "^24.9.0",
     "nodemon": "^1.19.4",
+    "supertest": "^4.0.2",
     "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.4"

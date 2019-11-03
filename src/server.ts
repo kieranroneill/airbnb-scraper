@@ -10,6 +10,9 @@ import * as logger from 'morgan';
 // APIs.
 import { ListingAPI } from './api';
 
+// Constants.
+import * as ApiConstants from './api/constants';
+
 // Models
 import { IModel } from './models';
 import { IListingModel } from './models/listing';
@@ -37,7 +40,7 @@ export class Server {
 
     ListingAPI.create(router, this.model);
 
-    this.app.use('/api', router);
+    this.app.use(ApiConstants.BASE_ENDPOINT, router);
   }
 
   /**

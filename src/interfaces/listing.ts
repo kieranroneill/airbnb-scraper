@@ -11,7 +11,7 @@ export interface IListing {
   amenities?: IAmenity[];
   description?: string;
   host?: IHost;
-  listingId: number;
+  listingId?: number;
   photos?: IPhoto[];
   rating?: string;
   title?: string;
