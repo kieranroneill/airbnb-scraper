@@ -26,10 +26,19 @@ export default class ListingAPI extends BaseAPI {
   }
 
   private async postListing(req: Request, res: Response): Promise<void> {
-    const listing: IListing = await scrapeListing(req.body.url);
-    const listingModel: IListingModel = new this.model.listing(listing);
+    const url: string | undefined = req.body.url;
+    let listing: IListing;
 
-    await listingModel.save();
+    // If we have no URL or it is not an Airbnb listing.
+    if (!url || !url.includes('airbnb.co.uk/rooms/')) {
+      return res.status(404)
+        .send('This is not an Airbnb listing')
+        .end();
+    }
+
+    listing = await scrapeListing(req.body.url);
+
+    await new this.model.listing(listing).save();
 
     res.status(201)
       .send(listing)

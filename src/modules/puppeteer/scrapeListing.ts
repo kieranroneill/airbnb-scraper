@@ -3,7 +3,8 @@ import { Browser, launch, Page, Request, ResourceType } from 'puppeteer';
 // Interfaces.
 import { IListing } from '../../interfaces/listing';
 
-// Modules.
+// Utils.
+import getListingId from './getListingId';
 import getTitle from './getTitle';
 
 /**
@@ -34,6 +35,7 @@ export default async function(url: string): Promise<IListing> {
   await page.goto(url);
 
   listing = {
+    listingId: getListingId(url),
     title: await getTitle(page),
   };
 
