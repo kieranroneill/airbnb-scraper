@@ -8,9 +8,10 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "tsc -p tsconfig.json",
+    "build": "tsc -p __typescript__/tsconfig.json",
     "postinstall": "cp -n .env.example .env",
-    "start": "nodemon src/index"
+    "start": "nodemon src/index",
+    "test": "jest"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
@@ -19,11 +20,14 @@
     "@types/errorhandler": "^0.0.32",
     "@types/express": "^4.17.1",
     "@types/helmet": "^0.0.45",
+    "@types/jest": "^24.0.21",
     "@types/mongoose": "^5.5.28",
     "@types/morgan": "^1.7.37",
     "@types/node": "^12.12.3",
     "@types/puppeteer": "^1.20.2",
+    "jest": "^24.9.0",
     "nodemon": "^1.19.4",
+    "ts-jest": "^24.1.0",
     "ts-node": "^8.4.1",
     "typescript": "^3.6.4"
   },

@@ -2,7 +2,7 @@
   "env": {
     "NODE_ENV": "development"
   },
-  "exec": "ts-node",
+  "exec": "ts-node --project \"__typescript__/tsconfig.api.json\"",
   "ext": "ts",
   "ignore": [
     "*.test*"

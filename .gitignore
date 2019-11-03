@@ -147,5 +147,6 @@ fabric.properties
 
 ### Custom
 .env
+coverage/
 dist/
 node_modules/
