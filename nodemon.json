@@ -1,0 +1,15 @@
+{
+  "env": {
+    "NODE_ENV": "development"
+  },
+  "exec": "ts-node",
+  "ext": "ts",
+  "ignore": [
+    "*.test*"
+  ],
+  "restartable": "rs",
+  "verbose": true,
+  "watch": [
+    "src/"
+  ]
+}
