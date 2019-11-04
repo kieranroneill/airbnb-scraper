@@ -48,7 +48,10 @@ docker-compose up
 yarn install
 ```
 
-2. Once the dependencies have been installed, you can edit the newly created `.env` file if you need to change any environment variables.
+2. Copy the `.env.example` into a `.env` file using:
+```shell script
+cp -n .env.example .env
+```
 
 3. Ensure MongoDB is running.
 

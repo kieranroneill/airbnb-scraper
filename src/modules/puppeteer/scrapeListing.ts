@@ -55,6 +55,7 @@ export default async function(url: string): Promise<IListing> {
     pathname: `/api/v2/pdp_listing_details/${listingId}`,
   };
   browser = await launch({
+    args: ['--no-sandbox'],
     headless: true,
   });
   page = await browser.newPage();

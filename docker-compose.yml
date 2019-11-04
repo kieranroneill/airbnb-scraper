@@ -1,0 +1,23 @@
+version: '3.5'
+
+services:
+  app:
+    build:
+      context: .
+    container_name: airbnb-scraper
+    image: kieranroneill/airbnb-scraper
+    depends_on:
+      - db
+    environment:
+      COOKIE_SECRET: super_duper_secret
+      MONGODB_URI: mongodb://db:27017/airbnb-listings
+      PORT: 1337
+    links:
+      - db
+    ports:
+      - "1337:1337"
+
+  db:
+    image: mongo
+    ports:
+      - "27017:27017"

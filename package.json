@@ -8,15 +8,13 @@
   "license": "MIT",
   "private": false,
   "scripts": {
-    "build": "tsc -p __typescript__/tsconfig.json",
-    "postinstall": "cp -n .env.example .env",
+    "build": "tsc -p __typescript__/tsconfig.api.json",
     "start": "nodemon src/index",
     "test": "jest"
   },
   "devDependencies": {
     "@types/body-parser": "^1.17.1",
     "@types/cookie-parser": "^1.4.2",
-    "@types/dotenv": "^8.2.0",
     "@types/errorhandler": "^0.0.32",
     "@types/express": "^4.17.1",
     "@types/helmet": "^0.0.45",
