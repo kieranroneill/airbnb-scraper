@@ -5,7 +5,7 @@ import * as Express from 'express';
 import * as Helmet from 'helmet';
 import { Connection } from 'mongoose';
 import * as logger from 'morgan';
-import winston from 'winston';
+import { Logger } from 'winston';
 
 // APIs.
 import { ListingAPI } from './api';
@@ -21,14 +21,17 @@ import { IModel } from './models';
 
 // Modules.
 import { connect, createModels } from './modules/db';
+import { createLogger } from './modules/logger';
 
 export class Server {
   public app: Express.Application;
+  public logger: Logger;
 
   private model!: IModel;
 
   constructor() {
     this.app = Express();
+    this.logger = createLogger();
 
     this.config();
     this.api();
@@ -70,7 +73,7 @@ export class Server {
     // Connect to DB.
     connection = connect(mongoDbUri);
 
-    connection.on('connected', () => winston.info(`Connected to: ${mongoDbUri}`));
+    connection.on('connected', () => this.logger.info(`Connected to: ${mongoDbUri}`));
 
     // Create models.
     this.model = createModels(connection);

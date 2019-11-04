@@ -1,5 +1,8 @@
 import { NextFunction, Request, Response } from 'express';
-import winston from 'winston';
+import { Logger } from 'winston';
+
+// Modules.
+import { createLogger } from '../modules/logger';
 
 export class RequestError extends Error {
   public status: number;
@@ -11,6 +14,8 @@ export class RequestError extends Error {
   }
 }
 
+const logger: Logger = createLogger();
+
 /**
  * Simple error handling middleware.
  */
@@ -21,7 +26,7 @@ export default function errorHandler(
   next: NextFunction
 ): Response | void {
   if (error) {
-    winston.error(error.message);
+    logger.error(error.message);
 
     if (error instanceof RequestError) {
       return response.status(error.status)

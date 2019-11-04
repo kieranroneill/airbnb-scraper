@@ -1,6 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { Browser, launch, Page, Request, ResourceType } from 'puppeteer';
-import winston from 'winston';
+import { Logger } from 'winston';
 
 // Errors.
 import { RequestError } from '../../middlewares/errorHandler';
@@ -9,9 +9,14 @@ import { RequestError } from '../../middlewares/errorHandler';
 import { IListing } from '../../interfaces/listing';
 import { IAirbnbApi } from './types';
 
+// Modules.
+import { createLogger } from '../logger';
+
 // Utils.
 import getListingId from './getListingId';
 import mapListingFromAirbnb from './mapListingFromAirbnb';
+
+const logger: Logger = createLogger();
 
 /**
  * Handles the request event when loading the page. This optimises the page load to only load the necessary asssets.
@@ -54,26 +59,26 @@ export default async function(url: string): Promise<IListing> {
   });
   page = await browser.newPage();
 
-  winston.info('Launching puppeteer...');
+  logger.info('Launching puppeteer...');
 
   await page.setRequestInterception(true);
 
   page.on('request', handleRequest.bind(airbnbApi));
 
-  winston.info(`Navigating to: ${url}`);
+  logger.info(`Navigating to: ${url}`);
 
   await page.goto(url, {
     waitUntil: 'networkidle0', // Wait until network connections have finished with 500ms interval.
   });
   await browser.close();
 
-  winston.info('Closing puppeteer...');
+  logger.info('Closing puppeteer...');
 
   if (!airbnbApi.key) {
     throw new RequestError(404, 'Could not get Listing from API');
   }
 
-  winston.info('Found Airbnb API key, attempting to call API...');
+  logger.info('Found Airbnb API key, attempting to call API...');
 
   // Get he listing from the Airbnb API.
   response = await axios.get(
