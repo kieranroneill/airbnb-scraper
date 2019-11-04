@@ -23,7 +23,7 @@ export default function(airbnbListing: IAirbnbListing): IListing {
       about: airbnbListing.primary_host.about,
       airbnbId: airbnbListing.primary_host.id,
       name: airbnbListing.primary_host.host_name,
-      url: airbnbListing.primary_host.profile_path,
+      url: `https://airbnb.com/${airbnbListing.primary_host.profile_path}`,
       verified: airbnbListing.primary_host.identity_verified,
     },
     airbnbId: airbnbListing.id,

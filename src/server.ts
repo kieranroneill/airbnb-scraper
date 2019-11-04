@@ -3,8 +3,9 @@ import * as cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
 import * as Express from 'express';
 import * as Helmet from 'helmet';
-import { Connection, createConnection } from 'mongoose';
+import { Connection } from 'mongoose';
 import * as logger from 'morgan';
+import winston from 'winston';
 
 // APIs.
 import { ListingAPI } from './api';
@@ -17,10 +18,9 @@ import errorHandler from './middlewares/errorHandler';
 
 // Models
 import { IModel } from './models';
-import { IListingModel } from './models/listing';
 
-// Schemas
-import { listingSchema } from './schemas/listing';
+// Modules.
+import { connect, createModels } from './modules/db';
 
 export class Server {
   public app: Express.Application;
@@ -32,6 +32,9 @@ export class Server {
 
     this.config();
     this.api();
+
+    // Error handling.
+    this.app.use(errorHandler);
   }
 
   /**
@@ -65,18 +68,11 @@ export class Server {
     this.app.use(cookieParser(process.env.COOKIE_SECRET));
 
     // Connect to DB.
-    connection = createConnection(mongoDbUri, {
-      useCreateIndex: true,
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-    });
+    connection = connect(mongoDbUri);
+
+    connection.on('connected', () => winston.info(`Connected to: ${mongoDbUri}`));
 
     // Create models.
-    this.model = {
-      listing: connection.model<IListingModel>('Listing', listingSchema),
-    };
-
-    // Error handling.
-    this.app.use(errorHandler);
+    this.model = createModels(connection);
   }
 }

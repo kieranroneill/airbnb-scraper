@@ -1,0 +1,22 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`/api/listing POST /listing should return a 400 if no url is provided 1`] = `
+Object {
+  "message": "This is not an Airbnb URL",
+  "status": 400,
+}
+`;
+
+exports[`/api/listing POST /listing should return a 400 if the url has no listing id 1`] = `
+Object {
+  "message": "No listing id found in URL",
+  "status": 400,
+}
+`;
+
+exports[`/api/listing POST /listing should return a 400 if the url is not an Airbnb url listing 1`] = `
+Object {
+  "message": "This is not an Airbnb URL",
+  "status": 400,
+}
+`;

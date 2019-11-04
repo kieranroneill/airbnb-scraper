@@ -1,5 +1,5 @@
 import { NextFunction, Request, Response } from 'express';
-import { createLogger, Logger } from 'winston';
+import winston from 'winston';
 
 export class RequestError extends Error {
   public status: number;
@@ -20,15 +20,8 @@ export default function errorHandler(
   response: Response,
   next: NextFunction
 ): Response | void {
-  let logger: Logger;
-
   if (error) {
-    logger = createLogger();
-
-    logger.log({
-      level: 'error',
-      message: error.message,
-    });
+    winston.error(error.message);
 
     if (error instanceof RequestError) {
       return response.status(error.status)
