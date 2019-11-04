@@ -38,11 +38,11 @@
     "body-parser": "^1.19.0",
     "cookie-parser": "^1.4.4",
     "dotenv": "^8.2.0",
-    "errorhandler": "^1.5.1",
     "express": "^4.17.1",
     "helmet": "^3.21.2",
     "mongoose": "^5.7.7",
     "morgan": "^1.9.1",
-    "puppeteer": "^2.0.0"
+    "puppeteer": "^2.0.0",
+    "winston": "^3.2.1"
   }
 }

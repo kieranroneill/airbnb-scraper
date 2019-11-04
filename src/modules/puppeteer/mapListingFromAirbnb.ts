@@ -16,7 +16,7 @@ export default function(airbnbListing: IAirbnbListing): IListing {
     })),
     coords: {
       lat: airbnbListing.lat,
-      lon: airbnbListing.lon,
+      lon: airbnbListing.lng,
     },
     description: airbnbListing.sectioned_description.description,
     host: {

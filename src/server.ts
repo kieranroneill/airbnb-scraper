@@ -1,7 +1,6 @@
 import { json, urlencoded } from 'body-parser';
 import * as cookieParser from 'cookie-parser';
 import { config } from 'dotenv';
-import * as errorHandler from 'errorhandler';
 import * as Express from 'express';
 import * as Helmet from 'helmet';
 import { Connection, createConnection } from 'mongoose';
@@ -12,6 +11,9 @@ import { ListingAPI } from './api';
 
 // Constants.
 import * as ApiConstants from './api/constants';
+
+// Middlewares.
+import errorHandler from './middlewares/errorHandler';
 
 // Models
 import { IModel } from './models';
@@ -64,6 +66,7 @@ export class Server {
 
     // Connect to DB.
     connection = createConnection(mongoDbUri, {
+      useCreateIndex: true,
       useNewUrlParser: true,
       useUnifiedTopology: true,
     });
@@ -73,13 +76,7 @@ export class Server {
       listing: connection.model<IListingModel>('Listing', listingSchema),
     };
 
-    // Catch 404 and forward to error handler
-    this.app.use((err: any, req: Express.Request, res: Express.Response, next: Express.NextFunction) => {
-      err.status = 404;
-      next(err);
-    });
-
     // Error handling.
-    this.app.use(errorHandler());
+    this.app.use(errorHandler);
   }
 }

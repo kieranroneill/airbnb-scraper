@@ -1,10 +1,14 @@
-import { Request, Response, Router } from 'express';
+import { NextFunction, Request, Response, Router } from 'express';
+import { Query } from 'mongoose';
 
 // APIs.
 import BaseAPI from './base';
 
 // Constants.
 import * as ApiConstants from './constants';
+
+// Errors.
+import { RequestError } from '../middlewares/errorHandler';
 
 // Interfaces.
 import { IListing } from '../interfaces/listing'
@@ -28,23 +32,40 @@ export default class ListingAPI extends BaseAPI {
     router.post(ApiConstants.LISTING_ENDPOINT, listing.postListing.bind(listing));
   }
 
-  private async postListing(req: Request, res: Response): Promise<void> {
+  private async postListing(req: Request, res: Response, next: NextFunction): Promise<void> {
     const url: string | undefined = req.body.url;
     let listing: IListing;
+    let docQuery: Query<IListingModel>;
+    let responseCode: number = 200;
 
-    // If we have no URL or it is not an Airbnb listing.
-    if (!url || !url.includes('airbnb.co.uk/rooms/')) {
-      return res.status(400)
-        .send('This is not an Airbnb listing')
+    try {
+      // If we have no URL or it is not an Airbnb listing.
+      if (!url || !url.includes('airbnb.co.uk/rooms/')) {
+        throw new RequestError(400, 'This is not an Airbnb URL');
+      }
+
+      listing = await scrapeListing(req.body.url);
+      docQuery = await this.model.listing.updateOne({
+        airbnbId: listing.airbnbId,
+      }, listing, {
+        upsert: true,
+      });
+
+      // If we have created a new document, send a 201!
+      if (docQuery['nModified'] <= 0) {
+        responseCode = 201;
+      }
+
+      return res.status(responseCode)
+        .send(listing)
         .end();
+    } catch (error) {
+      if (error instanceof RequestError) {
+        return next(error);
+      }
+
+      // Wrap all other errors as a 500 RequestError.
+      return next(new RequestError(500, error.message));
     }
-
-    listing = await scrapeListing(req.body.url);
-
-    await new this.model.listing(listing).save();
-
-    res.status(201)
-      .send(listing)
-      .end();
   }
 }

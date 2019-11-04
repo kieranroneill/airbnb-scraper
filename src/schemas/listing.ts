@@ -36,6 +36,7 @@ export const listingSchema: Schema = new Schema({
   rating: Schema.Types.Decimal128,
   title: String,
   updatedAt: Date,
+  version: Number,
 });
 
 listingSchema.pre<IListingModel>('save', function (next: () => void) {

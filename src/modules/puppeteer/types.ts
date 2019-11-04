@@ -15,7 +15,7 @@ export interface IAirbnbListing {
   lat: number;
   listing_amenities: IAirbnbListingAmenity[];
   listing_rooms: IAirbnbListingRoom[];
-  lon: number;
+  lng: number;
   min_nights: number;
   name: string;
   neighborhood_id: number;

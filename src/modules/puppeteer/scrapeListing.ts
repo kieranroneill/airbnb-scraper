@@ -1,5 +1,8 @@
 import axios, { AxiosResponse } from 'axios';
-import { Browser, launch, Page, Request, ResourceType, Response } from 'puppeteer';
+import { Browser, launch, Page, Request, ResourceType } from 'puppeteer';
+
+// Errors.
+import { RequestError } from '../../middlewares/errorHandler';
 
 // Interfaces.
 import { IListing } from '../../interfaces/listing';
@@ -39,7 +42,7 @@ export default async function(url: string): Promise<IListing> {
   let response: AxiosResponse;
 
   if (!listingId) {
-    throw new Error('no listing found');
+    throw new RequestError(400, 'No listing id found in URL');
   }
 
   airbnbApi = {
@@ -55,9 +58,13 @@ export default async function(url: string): Promise<IListing> {
   page.on('request', handleRequest.bind(airbnbApi));
 
   await page.goto(url, {
-    waitUntil: 'networkidle0', // Wait until network connections have finished with 500ms.
+    waitUntil: 'networkidle0', // Wait until network connections have finished with 500ms interval.
   });
   await browser.close();
+
+  if (!airbnbApi.key) {
+    throw new RequestError(404, 'Could not get Listing from API');
+  }
 
   // Get he listing from the Airbnb API.
   response = await axios.get(
