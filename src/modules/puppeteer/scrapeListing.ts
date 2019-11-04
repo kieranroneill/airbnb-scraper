@@ -1,5 +1,6 @@
 import axios, { AxiosResponse } from 'axios';
 import { Browser, launch, Page, Request, ResourceType } from 'puppeteer';
+import winston from 'winston';
 
 // Errors.
 import { RequestError } from '../../middlewares/errorHandler';
@@ -53,18 +54,26 @@ export default async function(url: string): Promise<IListing> {
   });
   page = await browser.newPage();
 
+  winston.info('Launching puppeteer...');
+
   await page.setRequestInterception(true);
 
   page.on('request', handleRequest.bind(airbnbApi));
+
+  winston.info(`Navigating to: ${url}`);
 
   await page.goto(url, {
     waitUntil: 'networkidle0', // Wait until network connections have finished with 500ms interval.
   });
   await browser.close();
 
+  winston.info('Closing puppeteer...');
+
   if (!airbnbApi.key) {
     throw new RequestError(404, 'Could not get Listing from API');
   }
+
+  winston.info('Found Airbnb API key, attempting to call API...');
 
   // Get he listing from the Airbnb API.
   response = await axios.get(
