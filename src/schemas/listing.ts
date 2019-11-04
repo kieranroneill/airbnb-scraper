@@ -4,26 +4,38 @@ import { Schema } from 'mongoose';
 import { IListingModel } from '../models/listing';
 
 export const listingSchema: Schema = new Schema({
-  createdAt: {
-    required: true,
-    type: Date,
-  },
-  description: String,
-  host: {
-    name: String,
-    url: String,
-  },
-  listingId: {
+  airbnbId: {
     required: true,
     type: Number,
     unique: true,
   },
-  rating: String,
-  title: String,
-  updatedAt: {
-    required: true,
-    type: Date,
+  amenities: [{
+    airbnbId: Number,
+    name: String,
+    tag: String,
+  }],
+  createdAt: Date,
+  coords: {
+    lat: Schema.Types.Decimal128,
+    lon: Schema.Types.Decimal128,
   },
+  description: String,
+  host: {
+    about: String,
+    airbnbId: String,
+    name: String,
+    url: String,
+    verified: Boolean,
+  },
+  minNights: Number,
+  photos: [{
+    airbnbId: Number,
+    caption: String,
+    url: String,
+  }],
+  rating: Schema.Types.Decimal128,
+  title: String,
+  updatedAt: Date,
 });
 
 listingSchema.pre<IListingModel>('save', function (next: () => void) {
