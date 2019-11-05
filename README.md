@@ -4,6 +4,7 @@ A simple web scrapper that uses Puppeteer under the hood to scrape an Airbnb lis
 
 #### Table of contents
 
+* [Introduction](#introduction)
 * [Getting started](#getting-started)
     * [1. Prerequisites](#1-prerequisites)
     * [2. Running the server](#2-running-the-server)
@@ -12,7 +13,41 @@ A simple web scrapper that uses Puppeteer under the hood to scrape an Airbnb lis
     * [2. Running locally](#2-running-locally)
     * [3. Testing](#3-testing)
 * [Credits](#credits)
-    
+
+## Introduction
+
+Below is a quick outline of the structure of the app:
+
+```text
+.
+├── api                        # API routes
+|   ├── listing.ts
+│   └── ...
+├── config                     # Various configuration objects
+|   ├── db.ts   
+│   └── ...
+├── interfaces                 # TS interfaces
+|   ├── listing.ts
+│   └── ...
+├── middlewares                # Custom Express middlewares
+|   ├── errorHandler.ts
+│   ├── ...
+├── models                     # MongoDB models
+|   ├── listing.ts
+│   └── ...
+├── modules                    # Modules are used to separate code to make it more testable
+|   ├── puppeteer              # This handles all the Puppeteer magic
+|   |   ├── scrapeListing.ts
+|   |   ├── index.ts
+|   │   └── ...
+│   └── ...
+├── schemas                    # MongoDB schemas
+|   ├── listing.ts
+│   └── ...
+├── index.ts                   # Entrypoint - starts the server.
+└── server.ts                  # This is where the Express app is setup and configured.
+```
+
 ## Getting started
 
 These are the instructions that tell you how to get up and running.
